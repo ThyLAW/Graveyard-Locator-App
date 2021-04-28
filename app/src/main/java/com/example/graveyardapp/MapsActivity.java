@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -49,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastlocation;
+    int mapTypeInt = 1;
     private int currentMapType = GoogleMap.MAP_TYPE_NORMAL;
     private Marker currentLocationmMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
@@ -93,16 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
         }
     }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -123,14 +117,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (!success) {
                     Log.e("failed", "Style parsing failed.");
                 }
-            }
-            catch (Resources.NotFoundException e) {
+            } catch (Resources.NotFoundException e) {
                 Log.e("mapstuff", "Style parsing failed.");
             }
 
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    TextView newtext = (TextView) findViewById(R.id.textviewresult);
+                    newtext.setText("hello");
+                }
+            });
         }
-
     }
+
 
     public void setMapType(int mapType) {
         currentMapType = mapType;
@@ -171,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     public void onClick(View v)
     {
         Object dataTransfer[] = new Object[2];
@@ -178,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         switch(v.getId())
         {
+
 
             case R.id.btnGraveyard:
                 mMap.clear();
@@ -189,8 +191,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getNearbyPlacesData.execute(dataTransfer);
                 Toast.makeText(MapsActivity.this, "Showing Nearby Cemeteries", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.btnShowSatellite:
+                mapTypeInt = 2; // 1 for normal, 2 for satellite, 4 for hybrid, 0 for none
+                setMapType(mapTypeInt);
+                Toast.makeText(MapsActivity.this, "Showing Satellite View", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btnShowNormal:
+                int mapTypeInt = 1; // 1 for normal, 2 for satellite, 4 for hybrid, 0 for none
+                setMapType(mapTypeInt);
+                Toast.makeText(MapsActivity.this, "Showing Satellite View", Toast.LENGTH_SHORT).show();
+                break;
         }
-    }
+        }
 
 
     private String getUrl(double latitude , double longitude , String nearbyPlace)
@@ -243,7 +256,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
             return true;
     }
-
 
     @Override
     public void onConnectionSuspended(int i) {
