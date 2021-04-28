@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -48,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastlocation;
-    private int currentMapType = GoogleMap.MAP_TYPE_HYBRID;
+    private int currentMapType = GoogleMap.MAP_TYPE_NORMAL;
     private Marker currentLocationmMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
     int PROXIMITY_RADIUS = 20000;
@@ -110,12 +111,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             bulidGoogleApiClient();
             mMap.setMyLocationEnabled(true);
             mMap.setMapType(currentMapType);
-//            boolean success = googleMap.setMapStyle(new MapStyleOptions(getResources()
-//                    .getString(R.string.map_id)));
-//
-//            if (!success) {
-//                Log.e("mapstuff", "Style parsing failed.");
-//            }
+
+            // Map Style taken from https://snazzymaps.com/style/25089/dark-electric
+            try {
+                // Customise the styling of the base map using a JSON object defined
+                // in a raw resource file.
+                boolean success = googleMap.setMapStyle(
+                        MapStyleOptions.loadRawResourceStyle(
+                                this, R.raw.style_json));
+
+                if (!success) {
+                    Log.e("failed", "Style parsing failed.");
+                }
+            }
+            catch (Resources.NotFoundException e) {
+                Log.e("mapstuff", "Style parsing failed.");
+            }
+
         }
 
     }
@@ -147,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(2));
