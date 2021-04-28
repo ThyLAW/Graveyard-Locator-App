@@ -10,4 +10,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="themeOrange">#e45f2d</color>
+    <color name="complimentaryOrange">#e48b2d</color>
+    <color name="themeGray">#3b3b3b</color>
 </resources>
