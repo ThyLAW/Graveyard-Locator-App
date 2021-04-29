@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -121,13 +123,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e("mapstuff", "Style parsing failed.");
             }
 
-            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                @Override
-                public void onInfoWindowClick(Marker marker) {
-                    TextView newtext = (TextView) findViewById(R.id.textviewresult);
-                    newtext.setText("hello");
-                }
-            });
         }
     }
 
@@ -163,6 +158,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationmMarker = mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(2));
+
+        //testing
+        TextView myTextView = (TextView)findViewById(R.id.tvTest);
+        myTextView.setText("hello");
+
 
         if(client != null)
         {
