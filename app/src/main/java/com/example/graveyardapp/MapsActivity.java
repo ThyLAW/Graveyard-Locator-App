@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        WebView myWebView = (WebView) findViewById(R.id.wvSearch);
+        myWebView.loadUrl("https://www.google.com");
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
     }
 
@@ -206,6 +212,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onInfoWindowClick(Marker marker) {
                 TextView myTextView = (TextView)findViewById(R.id.tvTest);
                myTextView.setText(marker.getTitle());
+                WebView myWebView = (WebView) findViewById(R.id.wvSearch);
+                myWebView.loadUrl("https://www.google.com/search?q=" + myTextView.getText() + "folklore");
+
             }
         });
 
