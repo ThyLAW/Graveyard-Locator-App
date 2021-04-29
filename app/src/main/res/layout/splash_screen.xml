@@ -14,7 +14,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Graveyard" />
 
     <TextView
         android:id="@+id/textGraveyardApp"
@@ -23,7 +24,7 @@
         android:layout_marginTop="32dp"
         android:text="GraveyardLocator"
         android:textColor="@color/places_text_white_alpha_87"
-        android:textSize="50dp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/textExploreHistory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -37,7 +38,7 @@
         android:layout_marginBottom="32dp"
         android:text="Explore History"
         android:textColor="@color/white"
-        android:textSize="50dp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

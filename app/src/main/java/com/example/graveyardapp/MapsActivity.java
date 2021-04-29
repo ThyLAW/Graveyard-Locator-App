@@ -159,11 +159,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(2));
 
-        //testing
-        TextView myTextView = (TextView)findViewById(R.id.tvTest);
-        myTextView.setText("hello");
-
-
         if(client != null)
         {
             LocationServices.FusedLocationApi.removeLocationUpdates(client,this);
@@ -172,15 +167,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    // on click events
     public void onClick(View v)
     {
         Object dataTransfer[] = new Object[2];
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
 
+        //switch case for clicking on the buttons.
+
         switch(v.getId())
         {
-
-
             case R.id.btnGraveyard:
                 mMap.clear();
                 String cemetery= "cemetery";
@@ -203,8 +199,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, "Showing Satellite View", Toast.LENGTH_SHORT).show();
                 break;
         }
-        }
 
+        // sets onclick listener for the popup info window.
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                TextView myTextView = (TextView)findViewById(R.id.tvTest);
+               myTextView.setText(marker.getTitle());
+            }
+        });
+
+
+        // gets info from clicked marker, but overriated the google click.
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//
+//            public boolean  onMarkerClick(Marker marker) {
+//                //Toast.makeText(getApplicationContext(), "Clicked a marker with title..." + marker.getTitle(), Toast.LENGTH_SHORT).show();
+//                TextView myTextView = (TextView)findViewById(R.id.tvTest);
+//                myTextView.setText(marker.getTitle());
+//                return true;
+//            }
+//        });
+     }
+
+    //gets the url for the places
 
     private String getUrl(double latitude , double longitude , String nearbyPlace)
     {
@@ -215,12 +234,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlaceUrl.append("&type="+nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
         googlePlaceUrl.append("&key="+getString(R.string.google_maps_key));
-
-        Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
-
         return googlePlaceUrl.toString();
     }
 
+    //Loads everything if permissions granted. changed the intervals to 5 for very quick use as not many people will be utilizing this app.
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
@@ -236,6 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    //checks for user permission
 
     public boolean checkLocationPermission()
     {
@@ -256,6 +274,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
             return true;
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {
