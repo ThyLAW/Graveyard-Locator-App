@@ -49,7 +49,6 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
         List<HashMap<String, String>> nearbyPlaceList;
         DataParser parser = new DataParser();
         nearbyPlaceList = parser.parse(s);
-        Log.d("datafornearbyplaces","method parse called");
         showNearbyPlaces(nearbyPlaceList);
     }
 
@@ -59,7 +58,6 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             MarkerOptions markerOptions = new MarkerOptions();
             HashMap<String, String> googlePlace = nearbyPlaceList.get(index);
 
-            // get name of place?
             String placeName = googlePlace.get("place_name");
             String vicinity = googlePlace.get("vicinity");
             double lat = Double.parseDouble(googlePlace.get("lat"));
@@ -70,7 +68,6 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             markerOptions.title(placeName + " at " + vicinity);
             markerOptions.draggable(true);
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_testtombstone2_foreground));
-            //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 
             mMap.addMarker(markerOptions);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));

@@ -2,6 +2,7 @@ package com.example.graveyardapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -12,6 +13,7 @@ import android.Manifest;
 
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -67,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final int REQUEST_LOCATION_CODE = 99;
     int PROXIMITY_RADIUS = 20000;
     double latitude,longitude;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,13 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         WebView myWebView = (WebView) findViewById(R.id.wvSearch);
-        myWebView.loadUrl("https://www.google.com/search?q=famous+graveyards");
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            WebSettingsCompat.setForceDark(myWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
-        }
-
+        SetCustomWebview();
     }
 
     @Override
@@ -200,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 getNearbyPlacesData.execute(dataTransfer);
                 Toast.makeText(MapsActivity.this, "Showing Nearby Cemeteries", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Click on Info Windows to See Google Result", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnShowSatellite:
                 mapTypeInt = 2; // 1 for normal, 2 for satellite, 4 for hybrid, 0 for none
@@ -219,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onInfoWindowClick(Marker marker) {
                 WebView myWebView = (WebView) findViewById(R.id.wvSearch);
-                String googlequery = "https://www.google.com/search?q=" + marker.getTitle() + "+" + "folklore" ;
+                String googlequery = "https://www.google.com/search?q=" + marker.getTitle();
                 myWebView.loadUrl(googlequery);
 
             }
@@ -291,6 +289,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
     }
 
+    public void SetCustomWebview(){
+        WebView myWebView = (WebView) findViewById(R.id.wvSearch);
+        myWebView.loadUrl("https://www.google.com/search?q=famous+graveyards");
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        myWebView.canGoBack();
+        myWebView.setBackgroundColor(Color.parseColor("#3b3b3b"));
+
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            WebSettingsCompat.setForceDark(myWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+
+        }
+    }
 
     @Override
     public void onConnectionSuspended(int i) {

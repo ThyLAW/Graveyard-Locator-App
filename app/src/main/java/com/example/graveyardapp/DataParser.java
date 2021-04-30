@@ -29,9 +29,6 @@ public class DataParser {
         String longitude="";
         String reference="";
 
-        Log.d("DataParser","jsonobject ="+googlePlaceJson.toString());
-
-
         try {
             if (!googlePlaceJson.isNull("name")) {
                 placeName = googlePlaceJson.getString("name");
@@ -81,9 +78,6 @@ public class DataParser {
     {
         JSONArray jsonArray = null;
         JSONObject jsonObject;
-
-        Log.d("json data", jsonData);
-
         try {
             jsonObject = new JSONObject(jsonData);
             jsonArray = jsonObject.getJSONArray("results");
