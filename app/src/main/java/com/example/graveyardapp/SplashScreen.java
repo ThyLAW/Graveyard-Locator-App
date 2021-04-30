@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+//splash screen intro
 public class SplashScreen extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {

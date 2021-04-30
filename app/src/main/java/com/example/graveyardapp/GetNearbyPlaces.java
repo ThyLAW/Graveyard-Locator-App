@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 /**
  * @author Priyanka
+ * @name Priyanka Pakhale
+ *  * Date: Jul 3, 2020
+ *  * Application Code
+ *  * https://github.com/priyankapakhale/GoogleMapsNearbyPlacesDemo
  */
 
 class GetNearbyPlacesData extends AsyncTask<Object, String, String> {

@@ -12,6 +12,10 @@ import java.util.List;
 
 /**
  * @author Priyanka
+ * @name Priyanka Pakhale
+ * Date: Jul 3, 2020
+ * Application Code
+ * https://github.com/priyankapakhale/GoogleMapsNearbyPlacesDemo
  */
 
 public class DataParser {
