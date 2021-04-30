@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
+
 import android.Manifest;
 
 import android.content.pm.PackageManager;
@@ -45,6 +48,8 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -77,9 +82,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         WebView myWebView = (WebView) findViewById(R.id.wvSearch);
-        myWebView.loadUrl("https://www.google.com");
+        myWebView.loadUrl("https://www.google.com/search?q=famous+graveyards");
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            WebSettingsCompat.setForceDark(myWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+        }
 
     }
 
@@ -210,10 +218,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                TextView myTextView = (TextView)findViewById(R.id.tvTest);
-               myTextView.setText(marker.getTitle());
                 WebView myWebView = (WebView) findViewById(R.id.wvSearch);
-                myWebView.loadUrl("https://www.google.com/search?q=" + myTextView.getText() + "folklore");
+                String googlequery = "https://www.google.com/search?q=" + marker.getTitle() + "+" + "folklore" ;
+                myWebView.loadUrl(googlequery);
 
             }
         });
