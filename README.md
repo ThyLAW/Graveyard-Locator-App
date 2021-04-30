@@ -14,4 +14,4 @@ Java, SDK 29, Developed for and on AVD Pixel 4 XL, tested for Pixel 4 and Pixel 
 
 ### Credits:
 
-Some code extracted from the wonderful examplse demonstrated by @Priyanka found here : https://github.com/priyankapakhale. 
+Some code extracted from the wonderful examples demonstrated by @Priyanka found here : https://github.com/priyankapakhale. 
